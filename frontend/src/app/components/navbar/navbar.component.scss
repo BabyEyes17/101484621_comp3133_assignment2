@@ -38,10 +38,18 @@
 
 .user-btn {
   color: white !important;
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
   gap: 8px;
   margin-left: 8px;
+
+  ::ng-deep .mdc-button__label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
 }
 
 .user-avatar {
