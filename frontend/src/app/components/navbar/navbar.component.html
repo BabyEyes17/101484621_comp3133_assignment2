@@ -1,0 +1,38 @@
+<mat-toolbar class="navbar">
+  <div class="navbar-brand" routerLink="/employees">
+    <mat-icon>business_center</mat-icon>
+    <span>EMS</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  <nav class="nav-links">
+    <a mat-button routerLink="/employees" routerLinkActive="active-link">
+      <mat-icon>people</mat-icon> Employees
+    </a>
+    <a mat-button routerLink="/employees/add" routerLinkActive="active-link">
+      <mat-icon>person_add</mat-icon> Add Employee
+    </a>
+  </nav>
+
+  <div class="user-menu" *ngIf="currentUser">
+    <button mat-button [matMenuTriggerFor]="userMenu" class="user-btn">
+      <div class="user-avatar">{{ currentUser.username[0].toUpperCase() }}</div>
+      <span class="username">{{ currentUser.username }}</span>
+      <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu" xPosition="before">
+      <div class="menu-user-info">
+        <div class="menu-avatar">{{ currentUser.username[0].toUpperCase() }}</div>
+        <div>
+          <p class="menu-username">{{ currentUser.username }}</p>
+          <p class="menu-email">{{ currentUser.email }}</p>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon> Sign Out
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
