@@ -51,6 +51,14 @@ async function startServer() {
     // Starting Apollo
     const server = new ApolloServer({ typeDefs, resolvers });
     await server.start();
+
+    app.options('/graphql', (req, res) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        return res.sendStatus(200);
+    });
+
     server.applyMiddleware({ 
         app,
         cors: false
@@ -74,3 +82,4 @@ module.exports = async (req, res) => {
 startServer().catch((err) => {
     console.error("Startup error:", err.message);
 });
+0
