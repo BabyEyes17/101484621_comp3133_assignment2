@@ -49,7 +49,10 @@ async function startServer() {
     // Starting Apollo
     const server = new ApolloServer({ typeDefs, resolvers });
     await server.start();
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ 
+        app,
+        cors: false
+    });
     
 
 
