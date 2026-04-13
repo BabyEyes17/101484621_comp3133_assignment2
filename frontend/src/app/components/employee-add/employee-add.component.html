@@ -1,0 +1,124 @@
+<app-navbar></app-navbar>
+
+<div class="page-container">
+  <div class="page-header">
+    <button mat-icon-button routerLink="/employees" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div>
+      <h1><mat-icon>person_add</mat-icon> Add New Employee</h1>
+      <p>Fill in the details to add a new employee</p>
+    </div>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Photo Upload -->
+        <div class="photo-section">
+          <div class="photo-preview" (click)="fileInput.click()">
+            <img *ngIf="photoPreview" [src]="photoPreview" alt="Preview" />
+            <div *ngIf="!photoPreview" class="photo-placeholder">
+              <mat-icon>add_a_photo</mat-icon>
+              <span>Upload Photo</span>
+            </div>
+          </div>
+          <input #fileInput type="file" accept="image/*" hidden (change)="onFileChange($event)" />
+          <div class="photo-actions">
+            <button mat-stroked-button type="button" (click)="fileInput.click()">
+              <mat-icon>upload</mat-icon> Choose Photo
+            </button>
+            <button mat-stroked-button type="button" color="warn" *ngIf="photoPreview" (click)="removePhoto()">
+              <mat-icon>delete</mat-icon> Remove
+            </button>
+          </div>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Personal Info -->
+        <h3 class="section-title"><mat-icon>person</mat-icon> Personal Information</h3>
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name" />
+            <mat-error *ngIf="f['first_name'].hasError('required')">First name is required</mat-error>
+            <mat-error *ngIf="f['first_name'].hasError('minlength')">Minimum 2 characters</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name" />
+            <mat-error *ngIf="f['last_name'].hasError('required')">Last name is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Email</mat-label>
+            <mat-icon matPrefix>email</mat-icon>
+            <input matInput type="email" formControlName="email" />
+            <mat-error *ngIf="f['email'].hasError('required')">Email is required</mat-error>
+            <mat-error *ngIf="f['email'].hasError('email')">Invalid email address</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender">
+              <mat-option value="">Prefer not to say</mat-option>
+              <mat-option *ngFor="let g of genderOptions" [value]="g">{{ g }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Job Info -->
+        <h3 class="section-title"><mat-icon>work</mat-icon> Job Information</h3>
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Designation</mat-label>
+            <mat-icon matPrefix>badge</mat-icon>
+            <input matInput formControlName="designation" />
+            <mat-error *ngIf="f['designation'].hasError('required')">Designation is required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Department</mat-label>
+            <mat-icon matPrefix>business</mat-icon>
+            <input matInput formControlName="department" />
+            <mat-error *ngIf="f['department'].hasError('required')">Department is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Salary (CAD)</mat-label>
+            <mat-icon matPrefix>attach_money</mat-icon>
+            <input matInput type="number" formControlName="salary" />
+            <mat-error *ngIf="f['salary'].hasError('required')">Salary is required</mat-error>
+            <mat-error *ngIf="f['salary'].hasError('min')">Salary must be at least $1,000</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Date of Joining</mat-label>
+            <mat-icon matPrefix>calendar_today</mat-icon>
+            <input matInput [matDatepicker]="picker" formControlName="date_of_joining" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="f['date_of_joining'].hasError('required')">Date of joining is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-stroked-button type="button" routerLink="/employees">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+            <mat-spinner *ngIf="loading" diameter="18" style="display:inline-block;margin-right:8px"></mat-spinner>
+            {{ loading ? 'Adding...' : 'Add Employee' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
