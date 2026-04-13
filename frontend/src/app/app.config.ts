@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideApollo(() => {
       const httpLink = inject(HttpLink);
       return {
-        link: httpLink.create({ uri: 'http://localhost:4000/graphql' }),
+        link: httpLink.create({ uri: 'https://101484621-comp3133-assignment2-backend-rkv0djt2y.vercel.app/' }),
         cache: new InMemoryCache(),
         defaultOptions: {
           watchQuery: { fetchPolicy: 'no-cache' },
