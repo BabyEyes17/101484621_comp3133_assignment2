@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-// Force Node.js to use Google's DNS (fixes querySrv ECONNREFUSED on some networks)
 const dns = require("dns");
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
@@ -30,8 +29,11 @@ const resolvers = require("./graphql/resolvers");
 
 
 // Starting the server
+let isInitialized = false;
+
 async function startServer() {
     
+    if (isInitialized) return;
 
 
     // Connecting to MongoDB
@@ -57,14 +59,15 @@ async function startServer() {
 
 
     // Starting Express
-    const port = process.env.PORT;
-
-    app.listen(port, () => {
-    
-        const url = `http://localhost:${port}/graphql`;
-        console.log(`Server running at ${url}`);
-    });
+    isInitialized = true;
 }
+
+
+
+module.exports = async (req, res) => {
+    await startServer();
+    return app(req, res);
+};
 
 
 
