@@ -10,12 +10,14 @@ const { ApolloServer } = require("apollo-server-express");
 const app = express();
 
 app.use(cors({
-  origin: '*',
+  origin: 'https://101484621-comp3133-assignment2-fron.vercel.app',
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.options('*', cors());
+app.options('/graphql', cors({
+  origin: 'https://101484621-comp3133-assignment2-fron.vercel.app'
+}));
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
