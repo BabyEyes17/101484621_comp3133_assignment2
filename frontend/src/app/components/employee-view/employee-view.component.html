@@ -1,0 +1,96 @@
+<app-navbar></app-navbar>
+
+<div class="page-container">
+  <div class="page-header">
+    <button mat-icon-button routerLink="/employees">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Employee Details</h1>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading && employee">
+    <mat-card class="profile-card">
+      <div class="profile-hero">
+        <div class="profile-avatar">
+          <img *ngIf="employee.employee_photo" [src]="employee.employee_photo" [alt]="employee.first_name" />
+          <div *ngIf="!employee.employee_photo" class="avatar-initials">
+            {{ getInitials(employee.first_name, employee.last_name) }}
+          </div>
+        </div>
+        <div class="profile-info">
+          <h2>{{ employee.first_name }} {{ employee.last_name }}</h2>
+          <p class="designation">{{ employee.designation }}</p>
+          <span class="chip-dept">{{ employee.department }}</span>
+        </div>
+        <div class="profile-actions">
+          <button mat-raised-button color="accent" [routerLink]="['/employees', employee._id, 'edit']">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+          <button mat-stroked-button routerLink="/employees">
+            <mat-icon>list</mat-icon> Back to List
+          </button>
+        </div>
+      </div>
+    </mat-card>
+
+    <div class="details-grid">
+      <mat-card class="detail-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>person</mat-icon>
+          <mat-card-title>Personal Info</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="detail-item">
+            <mat-icon>email</mat-icon>
+            <div><label>Email</label><p>{{ employee.email }}</p></div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="detail-item">
+            <mat-icon>wc</mat-icon>
+            <div><label>Gender</label><p>{{ employee.gender || 'Not specified' }}</p></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="detail-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>work</mat-icon>
+          <mat-card-title>Job Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="detail-item">
+            <mat-icon>attach_money</mat-icon>
+            <div><label>Salary</label><p>{{ formatSalary(employee.salary) }}</p></div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="detail-item">
+            <mat-icon>calendar_today</mat-icon>
+            <div><label>Date of Joining</label><p>{{ formatDate(employee.date_of_joining) }}</p></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="detail-card" *ngIf="employee.created_at">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>history</mat-icon>
+          <mat-card-title>Record Info</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="detail-item">
+            <mat-icon>add_circle_outline</mat-icon>
+            <div><label>Created</label><p>{{ formatDate(employee.created_at!) }}</p></div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="detail-item">
+            <mat-icon>update</mat-icon>
+            <div><label>Last Updated</label><p>{{ formatDate(employee.updated_at!) }}</p></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+</div>
